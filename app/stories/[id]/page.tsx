@@ -1,95 +1,221 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { stories } from "@/data/stories";
 
 interface StoryPageProps {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 }
 
-export default function StoryPage({ params }: StoryPageProps) {
-    const story = stories.find((s) => s.id === params.id);
+export default async function StoryPage({ params }: StoryPageProps) {
+    const { id } = await params;
+
+    const story = stories.find((s) => s.id === id);
 
     if (!story) {
         notFound();
     }
 
     return (
-        <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-            {/* HERO IMAGE */}
-            <section className="relative h-[75vh] w-full overflow-hidden">
+        <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+
+            {/* Hero */}
+
+            <section className="relative h-[70vh] overflow-hidden">
+
                 <img
                     src={story.image}
                     alt={story.title}
-                    className="absolute inset-0 h-full w-full object-cover opacity-80 scale-105"
+                    className="absolute inset-0 h-full w-full object-cover"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
 
-                <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 pb-12 max-w-5xl mx-auto">
-                    <p className="text-xs tracking-[0.3em] uppercase text-[var(--muted)]">
+                <div className="absolute top-8 left-8">
+                    <Link
+                        href="/stories"
+                        className="rounded-full border border-white/30 bg-black/30 px-5 py-2 text-white backdrop-blur transition hover:bg-white hover:text-black"
+                    >
+                        ← Back to Stories
+                    </Link>
+                </div>
+
+                <div className="absolute bottom-12 left-1/2 w-full max-w-6xl -translate-x-1/2 px-6">
+
+                    <p className="uppercase tracking-[0.4em] text-sm text-white/80">
                         {story.culture}
                     </p>
 
-                    <h1 className="mt-4 text-4xl md:text-6xl font-serif text-[var(--accent)] leading-tight">
+                    <h1 className="mt-4 text-5xl md:text-7xl font-serif text-white">
                         {story.title}
                     </h1>
 
-                    <p className="mt-6 text-lg text-[var(--muted)] max-w-2xl leading-relaxed">
+                    <p className="mt-5 text-xl text-white/80">
                         {story.food}
                     </p>
+
                 </div>
+
             </section>
 
-            {/* QUOTE SECTION */}
-            <section className="px-6 md:px-12 py-20">
-                <div className="max-w-3xl mx-auto">
-                    <p className="text-2xl md:text-3xl leading-relaxed font-serif text-[var(--foreground)] border-l-2 border-[var(--accent)] pl-6">
-                        “{story.quote}”
-                    </p>
+            {/* Quote */}
 
-                    <p className="mt-6 text-sm text-[var(--muted)]">
-                        — {story.personName}
-                    </p>
-                </div>
+            <section className="mx-auto max-w-4xl px-6 py-20">
+
+                <blockquote className="border-l-4 border-[var(--accent)] pl-8 text-3xl italic font-serif leading-relaxed">
+                    “{story.quote}”
+                </blockquote>
+
+                <p className="mt-6 text-right text-[var(--muted)]">
+                    — {story.personName}
+                </p>
+
             </section>
 
-            {/* STORY BODY */}
-            <section className="px-6 md:px-12 pb-32">
-                <div className="max-w-3xl mx-auto">
-                    <h2 className="text-lg uppercase tracking-[0.2em] text-[var(--accent)] mb-6">
-                        Memory
+            {/* Story */}
+
+            <section className="mx-auto max-w-3xl px-6">
+
+                <h2 className="mb-8 text-3xl font-serif text-[var(--accent)]">
+                    The Story
+                </h2>
+
+                <p className="text-lg leading-9 text-[var(--muted)]">
+                    {story.story}
+                </p>
+
+            </section>
+
+            {/* Recipe */}
+
+            <section className="mx-auto mt-24 max-w-5xl px-6">
+
+                <div className="rounded-3xl border border-[var(--border)] bg-white/40 p-10">
+
+                    <h2 className="text-4xl font-serif text-[var(--accent)]">
+                        The Recipe
                     </h2>
 
-                    <p className="text-[var(--muted)] leading-loose text-lg">
-                        {story.story}
+                    <p className="mt-3 text-[var(--muted)]">
+                        Every story deserves to be shared around a table. Here's one way to recreate this meal.
                     </p>
+
+                    <div className="mt-12 grid gap-12 md:grid-cols-2">
+
+                        <div>
+
+                            <h3 className="mb-5 text-2xl font-serif">
+                                Ingredients
+                            </h3>
+
+                            <ul className="space-y-3">
+
+                                {story.ingredients.map((ingredient) => (
+
+                                    <li
+                                        key={ingredient}
+                                        className="flex gap-3"
+                                    >
+                                        <span className="text-[var(--accent)]">
+                                            •
+                                        </span>
+
+                                        <span>
+                                            {ingredient}
+                                        </span>
+
+                                    </li>
+
+                                ))}
+
+                            </ul>
+
+                        </div>
+
+                        <div>
+
+                            <h3 className="mb-5 text-2xl font-serif">
+                                Instructions
+                            </h3>
+
+                            <ol className="space-y-5">
+
+                                {story.instructions.map((step, index) => (
+
+                                    <li
+                                        key={step}
+                                        className="flex gap-5"
+                                    >
+
+                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-white">
+
+                                            {index + 1}
+
+                                        </div>
+
+                                        <p className="flex-1">
+                                            {step}
+                                        </p>
+
+                                    </li>
+
+                                ))}
+
+                            </ol>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             </section>
 
-            {/* TAGS */}
-            <section className="px-6 md:px-12 pb-24">
-                <div className="max-w-3xl mx-auto flex flex-wrap gap-3">
+            {/* Tags */}
+
+            <section className="mx-auto max-w-5xl px-6 py-16">
+
+                <div className="flex flex-wrap gap-3">
+
                     {story.tags.map((tag) => (
+
                         <span
                             key={tag}
-                            className="text-xs px-3 py-1 rounded-full border border-[var(--border)] text-[var(--muted)]"
+                            className="rounded-full border border-[var(--border)] px-4 py-2 text-sm"
                         >
                             {tag}
                         </span>
+
                     ))}
+
                 </div>
+
             </section>
 
-            {/* FOOTER NOTE */}
-            <section className="px-6 md:px-12 pb-32">
-                <div className="max-w-3xl mx-auto text-center">
-                    <p className="text-sm text-[var(--muted)] italic">
-                        “Every meal carries a memory. Every memory carries a
-                        person.”
-                    </p>
-                </div>
+            {/* Closing */}
+
+            <section className="mx-auto max-w-3xl px-6 pb-24 text-center">
+
+                <p className="text-2xl font-serif text-[var(--accent)]">
+                    Food tells stories long after the meal is over.
+                </p>
+
+                <p className="mt-6 text-[var(--muted)]">
+                    Thank you for taking the time to share this memory.
+                    Every story helps preserve culture, family traditions,
+                    and the moments that connect us around a shared table.
+                </p>
+
+                <Link
+                    href="/stories"
+                    className="mt-10 inline-block rounded-full bg-[var(--accent)] px-8 py-3 text-white transition hover:opacity-90"
+                >
+                    Explore More Stories
+                </Link>
+
             </section>
-        </div>
+
+        </main>
     );
 }

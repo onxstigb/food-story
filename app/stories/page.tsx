@@ -10,27 +10,24 @@ export default function StoriesPage() {
                 </h1>
 
                 <p className="mt-4 text-[var(--muted)] max-w-2xl">
-                    Personal memories, cultural identity, and emotional
-                    connections through food.
+                    Personal memories through food, culture, and identity.
                 </p>
 
-                <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-10">
                     {stories.map((story) => (
                         <Link
                             key={story.id}
                             href={`/stories/${story.id}`}
-                            className="border border-[var(--border)] rounded-2xl overflow-hidden bg-[var(--card)] hover:border-[var(--accent)] transition"
+                            className="block border border-[var(--border)] rounded-2xl overflow-hidden hover:border-[var(--accent)] transition"
                         >
-                            <div className="h-56 overflow-hidden">
-                                <img
-                                    src={story.image}
-                                    alt={story.title}
-                                    className="w-full h-full object-cover opacity-80 hover:scale-105 transition duration-700"
-                                />
-                            </div>
+                            <img
+                                src={story.image}
+                                alt={story.title}
+                                className="h-56 w-full object-cover"
+                            />
 
                             <div className="p-6">
-                                <p className="text-xs text-[var(--muted)] uppercase tracking-widest">
+                                <p className="text-xs uppercase text-[var(--muted)] tracking-widest">
                                     {story.culture}
                                 </p>
 
@@ -38,12 +35,8 @@ export default function StoriesPage() {
                                     {story.title}
                                 </h2>
 
-                                <p className="mt-3 text-sm text-[var(--muted)] line-clamp-3">
+                                <p className="mt-3 text-sm text-[var(--muted)]">
                                     {story.quote}
-                                </p>
-
-                                <p className="mt-6 text-xs text-[var(--highlight)]">
-                                    Read →
                                 </p>
                             </div>
                         </Link>
