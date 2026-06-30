@@ -1,17 +1,31 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat, Mrs_Saint_Delafield } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import PageTransition from "@/components/transitions/PageTransition";
 
-const serif = Cormorant_Garamond({ subsets: ["latin"], weight: ['300', '400', '600'], variable: '--font-serif' });
-const sans = Montserrat({ subsets: ["latin"], weight: ['300', '400'], variable: '--font-sans' });
-const script = Mrs_Saint_Delafield({ subsets: ["latin"], weight: ['400'], variable: '--font-script' });
+export const metadata: Metadata = {
+    title: "The Shared Table",
+    description:
+        "An editorial food experience blending storytelling, design, and modern recipes.",
+};
 
-export const metadata: Metadata = { title: "The Shared Table" };
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <html lang="en">
+            <body>
+                <Header />
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${script.variable}`} suppressHydrationWarning>
-      <body className="antialiased bg-[#FAF9F6] text-[#918868]">{children}</body>
-    </html>
-  );
+                <PageTransition>
+                    <main className="pt-24">{children}</main>
+                </PageTransition>
+
+                <Footer />
+            </body>
+        </html>
+    );
 }

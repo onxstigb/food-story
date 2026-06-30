@@ -1,13 +1,139 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-.perspective { perspective: 2000px; }
-.preserve-3d { transform-style: preserve-3d; }
-.backface-hidden { backface-visibility: hidden; }
-.rotate-y-180 { transform: rotateY(180deg); }
+/* =========================
+   THE SHARED TABLE
+   DESIGN SYSTEM
+   ========================= */
 
-/* Editorial Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #FAF9F6; }
-::-webkit-scrollbar-thumb { background: #931F1D; }
+:root {
+    /* Core background (warm editorial black) */
+    --background: #0f0e0d;
+
+    /* Primary text (soft cream) */
+    --foreground: #f3ede2;
+
+    /* Secondary text (muted warm gray) */
+    --muted: #918868;
+
+    /* Primary identity red (emotion / titles / meaning) */
+    --accent: #931F1D;
+
+    /* Highlight orange (memory spark / hover / emphasis) */
+    --highlight: #ff7f11;
+
+    /* Paper surface (archive cards / story blocks) */
+    --paper: #d2e59e;
+
+    /* UI surfaces */
+    --card: rgba(243, 237, 226, 0.04);
+    --border: rgba(243, 237, 226, 0.10);
+}
+
+/* =========================
+   BASE STYLES
+   ========================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+}
+
+/* =========================
+   TYPOGRAPHY (EDITORIAL FEEL)
+   ========================= */
+
+h1, h2, h3, h4 {
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+}
+
+p {
+    color: var(--muted);
+}
+
+/* =========================
+   SELECTION
+   ========================= */
+
+::selection {
+    background: var(--accent);
+    color: var(--foreground);
+}
+
+/* =========================
+   SCROLLBAR
+   ========================= */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(147, 31, 29, 0.4);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(147, 31, 29, 0.7);
+}
+
+/* =========================
+   SURFACES
+   ========================= */
+
+.glass {
+    background: var(--card);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(14px);
+}
+
+/* =========================
+   EDITORIAL GRID
+   ========================= */
+
+.grid-editorial {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.6s ease-out both;
+}
+
+/* =========================
+   FOCUS STATES
+   ========================= */
+
+:focus-visible {
+    outline: 2px solid var(--highlight);
+    outline-offset: 3px;
+}
